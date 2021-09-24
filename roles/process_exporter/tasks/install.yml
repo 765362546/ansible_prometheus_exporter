@@ -1,0 +1,39 @@
+---
+- name: Create the process_exporter group
+  group:
+    name: "{{ process_exporter_system_group }}"
+    state: present
+    system: true
+  when:
+    - process_exporter_system_group != "root"
+
+- name: Create the process_exporter user
+  user:
+    name: "{{ process_exporter_system_user }}"
+    groups: "{{ process_exporter_system_group }}"
+    append: true
+    shell: /usr/sbin/nologin
+    system: true
+    createhome: false
+    home: /
+  when:
+    - process_exporter_system_user != "root"
+
+- name: create prometheus data directory
+  file:
+    path: "{{ process_exporter_config_dir }}"
+    state: directory
+    owner: "{{ process_exporter_system_user }}"
+    group: "{{ process_exporter_system_group }}"
+    mode: 0755
+
+  
+- name: propagate locally distributed process_exporter binary
+  copy:
+    src: "{{ process_exporter_binary_local_dir }}/process_exporter"
+    dest: "{{ _process_exporter_binary_install_dir }}/process_exporter"
+    mode: 0755
+    owner: root
+    group: root
+  when: process_exporter_binary_local_dir | length > 0
+  notify: restart process_exporter

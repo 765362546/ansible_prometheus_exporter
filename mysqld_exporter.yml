@@ -1,0 +1,8 @@
+# ansible-galaxy install cloudalchemy.node-exporter
+#
+- hosts: mysql
+  vars:
+    mysqld_exporter_binary_local_dir: '{{ playbook_dir }}/files/'
+    mysqld_exporter_dsn: "exporter:password@(localhost:3306)/"
+  roles:
+    - mysqld_exporter

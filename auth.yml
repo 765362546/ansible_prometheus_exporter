@@ -1,0 +1,10 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: 'auth_use_authorized_key'
+      authorized_key:
+        user: "root"
+        state: present
+        key: "{{ lookup('file', LOCAL_PUB_KEY_PATH | default(lookup('env','HOME') + '/.ssh/id_rsa.pub')) }}"
+

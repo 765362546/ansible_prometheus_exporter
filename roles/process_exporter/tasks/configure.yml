@@ -1,0 +1,22 @@
+---
+- name: Copy the process_exporter systemd service file
+  template:
+    src: process_exporter.service.j2
+    dest: /etc/systemd/system/process_exporter.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart process_exporter
+
+- name: Create/Update configuration file
+  copy:
+    dest: "{{ process_exporter_config_dir }}/config.yml"
+    content: |
+      process_names:
+      {{ process_exporter_names }}
+    backup: false
+    owner: root
+    mode: 0644
+  when:
+    - process_exporter_names != []
+  notify: restart process_exporter

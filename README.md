@@ -1,0 +1,1 @@
+配置node_exporter mysqld_exporter process_exporter

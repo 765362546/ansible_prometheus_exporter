@@ -1,0 +1,16 @@
+---
+- import_tasks: install.yml
+  tags:
+    - process_exporter_install
+
+- import_tasks: configure.yml
+  tags:
+    - process_exporter_configure
+
+- name: Ensure process_exporter is enabled on boot
+  systemd:
+    daemon_reload: true
+    name: process_exporter
+    enabled: true
+  tags:
+    - process_exporter_run

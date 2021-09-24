@@ -1,0 +1,8 @@
+# ansible-galaxy install cloudalchemy.node-exporter
+#
+- hosts: process
+  vars:
+    process_exporter_binary_local_dir: '{{ playbook_dir }}/files/'
+    process_exporter_config_dir: '/usr/local/prometheus'
+  roles:
+    - process_exporter

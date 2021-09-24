@@ -1,0 +1,7 @@
+# ansible-galaxy install cloudalchemy.node-exporter
+#
+- hosts: node
+  vars:
+    node_exporter_binary_local_dir: '{{ playbook_dir }}/files/'
+  roles:
+    - node-exporter
